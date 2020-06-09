@@ -1,7 +1,6 @@
-import axios from "axios";
+import { loadList } from "./loadList";
 
-const api = axios.create({
-  baseURL: "http://localhost:3333",
-});
+export const baseUrl = "http://api.openweathermap.org/data/2.5/";
+const list = loadList();
 
-export default api;
+export const idsList = list.map((item) => item.id);

@@ -29,5 +29,6 @@ export const InnerContainer = styled.section`
 
   section {
     display: flex;
+    flex-wrap: wrap;
   }
 `;

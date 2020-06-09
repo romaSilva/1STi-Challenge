@@ -5,7 +5,7 @@ import { Container } from "./style";
 const Header = () => {
   return (
     <Container color="#FFF">
-      <h1>Hello World</h1>
+      <h1>Previsão do tempo</h1>
     </Container>
   );
 };

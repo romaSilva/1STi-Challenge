@@ -7,7 +7,7 @@ import Table from "../Table";
 import { Container, InnerContainer } from "./style";
 
 const Capital = () => {
-  const { getCapitals } = useContext(globalContext);
+  const { capitals, getCapitals } = useContext(globalContext);
 
   useEffect(() => {
     getCapitals();
@@ -18,8 +18,8 @@ const Capital = () => {
       <InnerContainer>
         <h2>Capitais</h2>
         <section>
-          <Table />
-          <Table />
+          <Table capitals={capitals.filter((capital, index) => index < 5)} />
+          <Table capitals={capitals.filter((capital, index) => index >= 5)} />
         </section>
       </InnerContainer>
     </Container>
