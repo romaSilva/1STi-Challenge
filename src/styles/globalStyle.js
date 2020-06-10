@@ -16,6 +16,7 @@ html, body, #root {
 body {
     font-family: 'Roboto', serif;
     background-image: linear-gradient(to bottom, #FF7000, #FAD44A);    
+    background-repeat: no-repeat;
     color: #333;
     -webkit-font-smoothing: antialiased !important;
 }

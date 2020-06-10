@@ -12,6 +12,9 @@ import { kelvinToCelsius } from "../utils/kelvinToCelsius";
 const GlobalState = (props) => {
   const initialState = {
     capitals: [],
+    input: "",
+    city: {},
+    card: false,
   };
 
   const [state, dispatch] = useReducer(globalReducer, initialState);
@@ -22,7 +25,6 @@ const GlobalState = (props) => {
       `${baseUrl}group?id=${idsList}&appid=${apiKey}`
     );
     const list = response.data.list;
-    console.log(list);
     const serializedList = list.map((item) => ({
       name: item.name,
       max: kelvinToCelsius(item.main.temp_max),
@@ -35,8 +37,60 @@ const GlobalState = (props) => {
     });
   };
 
+  //Updates the state variable "input" according to the typing
+  const handleChange = (e) => {
+    const searchInput = e.target.value;
+
+    dispatch({
+      type: "SET_INPUT",
+      payload: searchInput,
+    });
+  };
+
+  //Does basic verification and updates the "city" state variable
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!state.input) return;
+    await axios
+      .get(`${baseUrl}weather?q=${state.input}&appid=${apiKey}`)
+      .then((response) => {
+        dispatch({
+          type: "SET_CITY",
+          payload: response.data,
+        });
+        dispatch({
+          type: "SET_CARD",
+          payload: true,
+        });
+      })
+      .catch((error) => console.log(error));
+
+    dispatch({
+      type: "SET_INPUT",
+      payload: "",
+    });
+  };
+
+  const handleClose = () => {
+    dispatch({
+      type: "SET_CARD",
+      payload: false,
+    });
+  };
+
   return (
-    <GlobalContext.Provider value={{ capitals: state.capitals, getCapitals }}>
+    <GlobalContext.Provider
+      value={{
+        capitals: state.capitals,
+        input: state.input,
+        city: state.city,
+        card: state.card,
+        getCapitals,
+        handleChange,
+        handleSubmit,
+        handleClose,
+      }}
+    >
       {props.children}
     </GlobalContext.Provider>
   );
